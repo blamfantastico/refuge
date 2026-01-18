@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<meta title="Refuge" package="com.noonat.refuge" version="1.0.0" company="noonat" />
+
+	<app main="Main" path="export" file="Refuge" />
+
+	<window width="480" height="640" fps="60" background="#111111" />
+	<window hardware="true" allow-shaders="true" require-shaders="true" depth-buffer="false" stencil-buffer="false" if="cpp" />
+	<window vsync="false" antialiasing="0" if="cpp" />
+	<window orientation="portrait" fullscreen="false" resizable="true" />
+
+	<source path="source" />
+
+	<haxelib name="flixel" />
+	<haxelib name="openfl" />
+
+	<haxedef name="FLX_HEALTH" />
+
+	<assets path="assets/images" rename="images" />
+	<assets path="assets/sounds" rename="sounds" />
+
+	<icon path="icon.png" if="exists" />
+</project>
