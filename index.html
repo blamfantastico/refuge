@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Refuge - Comparison</title>
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+    <style>
+        a { color: #333; }
+        a:hover { color: #fff; }
+        body { margin: 0px; overflow: auto; background: #090909; }
+        nav {
+            background: #111;
+            border-bottom: 1px solid #333;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            font-family: Arial, sans-serif;
+        }
+        nav .title { color: #fff; font-weight: bold; font-size: 18px; }
+        nav a { color: #666; text-decoration: none; padding: 5px 10px; }
+        nav a:hover { color: #fff; }
+        nav a.active { color: #fff; background: #333; border-radius: 4px; }
+        .content { padding: 20px; }
+        .comparison {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .version { text-align: center; }
+        .version h2 {
+            font-family: arial;
+            font-size: 14px;
+            color: #666;
+            margin: 0 0 5px 0;
+            font-weight: bold;
+        }
+        .version p {
+            font-family: arial;
+            font-size: 10px;
+            color: #333;
+            margin: 0 0 10px 0;
+        }
+        .game-wrapper {
+            background: #000;
+            padding: 10px;
+            border: 1px solid #1a1a1a;
+        }
+        iframe { display: block; border: none; }
+        .summary {
+            font-family: arial;
+            font-size: 11px;
+            color: #333;
+            max-width: 960px;
+            margin: 30px auto 0 auto;
+            text-align: center;
+        }
+        .summary b { color: #666; }
+    </style>
+</head>
+<body>
+    <nav>
+        <span class="title">Refuge</span>
+        <a href="index.html" class="active">Comparison</a>
+        <a href="flash.html">Flash Original</a>
+        <a href="haxeflixel.html">HaxeFlixel Port</a>
+    </nav>
+
+    <div class="content">
+        <div class="comparison">
+            <div class="version">
+                <h2>Flash Original</h2>
+                <p>ActionScript 3 / Flixel (via Ruffle)</p>
+                <div class="game-wrapper">
+                    <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+                        id="refuge-flash" width="480" height="640">
+                        <param name="movie" value="refuge.swf" />
+                        <param name="quality" value="high" />
+                        <param name="bgcolor" value="#111111" />
+                        <embed src="refuge.swf" quality="high" bgcolor="#111111"
+                            width="480" height="640" name="refuge-flash"
+                            type="application/x-shockwave-flash">
+                        </embed>
+                    </object>
+                </div>
+            </div>
+            <div class="version">
+                <h2>HaxeFlixel Port</h2>
+                <p>Haxe / HaxeFlixel targeting HTML5</p>
+                <div class="game-wrapper">
+                    <iframe src="export/html5/bin/index.html" width="480" height="640"></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="summary">
+            <p><b>Controls:</b> Arrow keys to aim, <b>X</b> to shoot. Only one shot at a time!</p>
+        </div>
+    </div>
+</body>
+</html>

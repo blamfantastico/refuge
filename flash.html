@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Refuge - Flash Original</title>
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            background: #090909;
+            color: #ccc;
+            font-family: Arial, sans-serif;
+        }
+        nav {
+            background: #111;
+            border-bottom: 1px solid #333;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        nav .title {
+            color: #fff;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        nav a {
+            color: #666;
+            text-decoration: none;
+            padding: 5px 10px;
+        }
+        nav a:hover {
+            color: #fff;
+        }
+        nav a.active {
+            color: #fff;
+            background: #333;
+            border-radius: 4px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .game-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .game-wrapper {
+            background: #111;
+            padding: 10px;
+            border: 1px solid #333;
+        }
+        .instructions {
+            max-width: 200px;
+            font-size: 12px;
+            padding-top: 10px;
+        }
+        .instructions b {
+            color: #fff;
+        }
+        .instructions p {
+            margin: 10px 0;
+        }
+        .version-info {
+            color: #666;
+            font-size: 11px;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <span class="title">Refuge</span>
+        <a href="index.html">Comparison</a>
+        <a href="flash.html" class="active">Flash Original</a>
+        <a href="haxeflixel.html">HaxeFlixel Port</a>
+    </nav>
+
+    <div class="content">
+        <div class="game-container">
+            <div class="game-wrapper">
+                <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+                    id="refuge" width="480" height="640">
+                    <param name="movie" value="refuge.swf" />
+                    <param name="quality" value="high" />
+                    <param name="bgcolor" value="#111111" />
+                    <embed src="refuge.swf" quality="high" bgcolor="#111111"
+                        width="480" height="640" name="refuge"
+                        type="application/x-shockwave-flash">
+                    </embed>
+                </object>
+            </div>
+            <div class="instructions">
+                <p><b>Controls</b></p>
+                <p><b>Arrow keys</b> to aim</p>
+                <p><b>X</b> to shoot</p>
+                <p><b>Only one shot at a time!</b></p>
+                <p>Keep the invaders away from your city. When the city is destroyed, all is lost.</p>
+                <p>Shoot invaders for points. Earn bonuses with tricky shots.</p>
+                <div class="version-info">
+                    <p>Original Flash version running via Ruffle emulator</p>
+                    <p>Developed for Ludum Dare 15 (theme: caverns)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
