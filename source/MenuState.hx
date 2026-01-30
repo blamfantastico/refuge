@@ -61,7 +61,7 @@ class MenuState extends FlxState {
 			FlxTween.tween(this, {_scrollY: -640}, 1.0, {
 				ease: FlxEase.quadIn,
 				onComplete: function(_) {
-					FlxG.switchState(new PlayState());
+					FlxG.switchState(PlayState.new);
 				}
 			});
 		});
