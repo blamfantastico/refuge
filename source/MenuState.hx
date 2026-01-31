@@ -22,6 +22,9 @@ class MenuState extends FlxState {
 	override public function create():Void {
 		super.create();
 
+		// Use OS cursor instead of HaxeFlixel cursor
+		FlxG.mouse.useSystemCursor = true;
+
 		// Black background
 		var bg = new FlxSprite(0, 0);
 		bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
@@ -58,7 +61,7 @@ class MenuState extends FlxState {
 
 		// Start button
 		var startButton = new FlxButton(Std.int(FlxG.width / 2 - 72), Std.int(FlxG.height - 256), "Click to Play", function() {
-			FlxTween.tween(this, {_scrollY: -640}, 1.0, {
+			FlxTween.tween(this, {_scrollY: 640}, 1.0, {
 				ease: FlxEase.quadIn,
 				onComplete: function(_) {
 					FlxG.switchState(PlayState.new);
@@ -67,6 +70,16 @@ class MenuState extends FlxState {
 		});
 		startButton.makeGraphic(144, 32, FlxColor.BLACK);
 		startButton.label.setFormat(null, 16, 0x15190f, CENTER);
+		startButton.labelAlphas = [1.0, 1.0, 1.0]; // normal, highlight, pressed
+		startButton.label.color = 0x15190f;
+		startButton.label.offset.y = -2; // match original Flash positioning
+		// Set up highlight color change on status change
+		startButton.onOver.callback = function() {
+			startButton.label.color = 0xffff33;
+		};
+		startButton.onOut.callback = function() {
+			startButton.label.color = 0x15190f;
+		};
 		startButton.alpha = 0.0;
 		add(startButton);
 

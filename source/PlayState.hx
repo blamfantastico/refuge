@@ -28,7 +28,7 @@ class PlayState extends FlxState {
 	public var playerLayer:FlxGroup;
 	public var uiLayer:UILayer;
 
-	private var _scrollY:Float = 640;
+	private var _scrollY:Float = -640;
 
 	override public function create():Void {
 		super.create();
@@ -36,8 +36,8 @@ class PlayState extends FlxState {
 		// Reset score when starting new game
 		PlayState.score = 0;
 
-		// Start with camera scrolled down, then tween up
-		_scrollY = 640;
+		// Start with camera scrolled up (game below), then tween down to show game
+		_scrollY = -640;
 		FlxTween.tween(this, {_scrollY: 0}, 1.0, {startDelay: 1.0, ease: FlxEase.quadOut});
 
 		lightsLayer = new LightsLayer(1.0 / 3.0, 0.8);
