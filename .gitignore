@@ -4,3 +4,4 @@ upload
 .claude
 export/
 *.sublime-project
+*.sublime-workspace
