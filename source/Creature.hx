@@ -207,7 +207,9 @@ class Creature extends FlxSprite {
 		} else if (_state == STATE_WANDERING) {
 			maxVelocity.y = _downSpeed;
 		} else if (_state == STATE_ATTACKING) {
-			maxVelocity.y = 0;
+			// HaxeFlixel: maxVelocity=0 means "no clamping", so we must zero velocity/acceleration
+			velocity.y = 0;
+			acceleration.y = 0;
 		}
 
 		super.update(elapsed);
@@ -218,8 +220,10 @@ class Creature extends FlxSprite {
 					if (y > 64)
 						_state = STATE_DESCENDING;
 				case STATE_DESCENDING:
-					if (y > 460)
+					if (y > 460) {
 						_state = STATE_ATTACKING;
+						velocity.y = 0;
+					}
 				case STATE_ATTACKING:
 					var playState = Std.downcast(FlxG.state, PlayState);
 					if (playState != null && playState.gameOver) {
