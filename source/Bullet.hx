@@ -19,6 +19,8 @@ class Bullet extends FlxSprite {
 	private var _explosion:BulletExplosion;
 	private var _light:Light;
 	private var _spawnTime:Float;
+	private var _lastVelocityX:Float = 0;
+	private var _lastVelocityY:Float = 0;
 
 	public function new(lightsLayer:LightsLayer) {
 		super(0, 0);
@@ -44,21 +46,21 @@ class Bullet extends FlxSprite {
 		++bounces;
 		hurtBullet(1);
 		if (alive) {
-			velocity.x = -velocity.x * ELASTICITY;
+			velocity.x = -_lastVelocityX * ELASTICITY;
 		}
 	}
 
 	public function onHitFloor():Void {
 		hurtBullet(1);
 		if (alive) {
-			velocity.y = -velocity.y * ELASTICITY;
+			velocity.y = -_lastVelocityY * ELASTICITY;
 		}
 	}
 
 	public function onHitCeiling():Void {
 		hurtBullet(1);
 		if (alive) {
-			velocity.y = -velocity.y * ELASTICITY;
+			velocity.y = -_lastVelocityY * ELASTICITY;
 		}
 	}
 
@@ -115,6 +117,9 @@ class Bullet extends FlxSprite {
 			kill();
 			return;
 		}
+		// Store velocity before collision callbacks (HaxeFlixel zeros velocity before callbacks)
+		_lastVelocityX = velocity.x;
+		_lastVelocityY = velocity.y;
 		super.update(elapsed);
 	}
 }
