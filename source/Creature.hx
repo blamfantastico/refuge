@@ -6,10 +6,8 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.util.FlxSpriteUtil;
 import openfl.display.BitmapData;
-import openfl.display.CapsStyle;
-import openfl.display.LineScaleMode;
-import openfl.display.Shape;
 import openfl.geom.ColorTransform;
 import openfl.geom.Matrix;
 import openfl.geom.Rectangle;
@@ -41,7 +39,7 @@ class Creature extends FlxSprite {
 	private var _state:Int;
 	private var _text:FlxText;
 	private var _brightness:Float;
-	private var _beamShape:Shape;
+	private var _beamSprite:FlxSprite;
 
 	public function new(lightsLayer:LightsLayer) {
 		super(0, 0);
@@ -72,9 +70,24 @@ class Creature extends FlxSprite {
 		_lightBeam.kill();
 		lightsLayer.add(_lightBeam);
 
-		_beamShape = new Shape();
+		// Create beam sprite for attack visualization
+		_beamSprite = new FlxSprite(0, 0);
+		_beamSprite.makeGraphic(FlxG.width, FlxG.height, FlxColor.TRANSPARENT, true);
 
 		creatureSpawn();
+	}
+
+	private function recreateBitmaps():Void {
+		_pixelsAlive = new BitmapData(SCALE * 5, SCALE * 5, true, 0x00000000);
+		var scaledMatrix = new Matrix(SCALE, 0, 0, SCALE);
+		CreatureBitmaps.drawNext(_pixelsAlive, scaledMatrix);
+
+		var brightnessTransform = new ColorTransform(_brightness, _brightness, _brightness);
+		_pixelsAlive.colorTransform(new Rectangle(0, 0, SCALE * 5, SCALE * 5), brightnessTransform);
+
+		_pixelsDead = _pixelsAlive.clone();
+		var deadTransform = new ColorTransform(0.4, 0.6, 0.2, 1.0, 50, 50, 50);
+		_pixelsDead.colorTransform(new Rectangle(0, 0, SCALE * 5, SCALE * 5), deadTransform);
 	}
 
 	public function getExplosion():CreatureExplosion {
@@ -104,22 +117,28 @@ class Creature extends FlxSprite {
 		dying = true;
 		explode(0.6);
 		flash(40);
-		loadGraphic(_pixelsDead);
+		loadGraphic(_pixelsDead, false, 0, 0, true); // unique=true to prevent caching issues
 	}
 
 	override public function draw():Void {
 		// Draw attack beam before the creature
 		if (!dying && alive && _attacking != null) {
-			_beamShape.graphics.clear();
-			_beamShape.graphics.lineStyle(3, 0xff006600, 0.5, true, LineScaleMode.NORMAL, CapsStyle.SQUARE);
-			_beamShape.graphics.moveTo(x + width / 2, y + height / 2);
-			_beamShape.graphics.lineTo(_attacking.x + _attacking.width / 2, _attacking.y + _attacking.height / 2);
-			FlxG.camera.buffer.draw(_beamShape);
+			// Clear the beam sprite and draw a new line
+			_beamSprite.pixels.fillRect(_beamSprite.pixels.rect, FlxColor.TRANSPARENT);
+			var x1 = Std.int(x + width / 2);
+			var y1 = Std.int(y + height / 2);
+			var x2 = Std.int(_attacking.x + _attacking.width / 2);
+			var y2 = Std.int(_attacking.y + _attacking.height / 2);
+			FlxSpriteUtil.drawLine(_beamSprite, x1, y1, x2, y2, {thickness: 3, color: FlxColor.fromRGB(0, 102, 0, 128)});
+			_beamSprite.draw();
 		}
 		super.draw();
 	}
 
 	public function setText(text:String):Void {
+		if (text == null || text.length == 0)
+			return;
+
 		var lines = text.split('\n').length;
 		var ty:Float = y - lines * 10;
 		if (_text == null) {
@@ -127,6 +146,7 @@ class Creature extends FlxSprite {
 			_text.setFormat(null, 6, 0xff999999);
 			FlxG.state.add(_text);
 		} else {
+			FlxTween.cancelTweensOf(_text);
 			_text.text = text;
 			_text.x = x;
 			_text.y = ty;
@@ -134,7 +154,6 @@ class Creature extends FlxSprite {
 		_text.alpha = 1.0;
 		_text.visible = true;
 
-		FlxTween.cancelTweensOf(_text);
 		FlxTween.tween(_text, {y: _text.y - 10}, 1.0, {
 			ease: FlxEase.linear,
 			onComplete: function(_) {
@@ -150,7 +169,11 @@ class Creature extends FlxSprite {
 
 	public function creatureSpawn():Void {
 		reset(x, y);
-		loadGraphic(_pixelsAlive);
+		// Recreate bitmap if it was disposed
+		if (_pixelsAlive.width == 0 || _pixelsAlive.height == 0) {
+			recreateBitmaps();
+		}
+		loadGraphic(_pixelsAlive, false, 0, 0, true); // unique=true to prevent caching issues
 		alpha = 1.0;
 		acceleration.y = 80;
 		chain = null;
