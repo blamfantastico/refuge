@@ -40,6 +40,7 @@ class Creature extends FlxSprite {
 	private var _text:FlxText;
 	private var _brightness:Float;
 	private var _beamSprite:FlxSprite;
+	private var _lastVelocityX:Float = 0;
 
 	public function new(lightsLayer:LightsLayer) {
 		super(0, 0);
@@ -105,7 +106,7 @@ class Creature extends FlxSprite {
 	}
 
 	public function hitWallCreature(movingRight:Bool):Bool {
-		velocity.x *= -1;
+		velocity.x = -_lastVelocityX;
 		return true;
 	}
 
@@ -197,6 +198,7 @@ class Creature extends FlxSprite {
 		_downSpeed = 5 + _downMultiplier * BASE_DOWN_SPEED;
 		_explosion.x = x;
 		_explosion.y = y;
+		_lastVelocityX = velocity.x; // Store for wall bounce (collide zeros velocity before callback)
 
 		if (dying) {
 			maxVelocity.y = 80;
