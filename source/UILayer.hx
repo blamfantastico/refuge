@@ -20,7 +20,6 @@ class UILayer extends FlxGroup {
 	private var _scoreText:FlxText;
 	private var _copyScoreButton:FlxButton;
 	private var _tryAgainButton:FlxButton;
-	private var _debugText:FlxText;
 
 	public function new(lightsLayer:LightsLayer) {
 		super();
@@ -105,12 +104,6 @@ class UILayer extends FlxGroup {
 		_scoreText = new FlxText(0, Std.int(FlxG.height - 32), FlxG.width, "Score: 0");
 		_scoreText.setFormat(null, 16, FlxColor.WHITE, CENTER);
 		add(_scoreText);
-
-		// Debug creature count in top right
-		_debugText = new FlxText(FlxG.width - 120, 8, 120, "Creatures: 0");
-		_debugText.setFormat(null, 12, FlxColor.WHITE, RIGHT);
-		_debugText.scrollFactor.set(0, 0);
-		add(_debugText);
 	}
 
 	public function onGameOver():Void {
@@ -136,16 +129,5 @@ class UILayer extends FlxGroup {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		_scoreText.text = "Score: " + PlayState.score;
-
-		// Update debug info
-		var playState = Std.downcast(FlxG.state, PlayState);
-		if (playState != null && playState.creaturesLayer != null) {
-			var count = 0;
-			for (c in playState.creaturesLayer.creatures) {
-				if (c != null && c.exists && c.alive)
-					count++;
-			}
-			_debugText.text = "FPS:" + FlxG.drawFramerate + " C:" + count;
-		}
 	}
 }
