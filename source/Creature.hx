@@ -115,6 +115,8 @@ class Creature extends FlxSprite {
 			return;
 		FlxG.sound.play("sounds/creature_hit.mp3");
 		maxVelocity.y = 80;
+		acceleration.y = 120; // Restore gravity (may have been zeroed in attack state)
+		drag.y = 0; // Clear any drag from attack state
 		dying = true;
 		explode(0.6);
 		flash(40);
