@@ -74,11 +74,13 @@ class Player extends FlxSprite {
 				playState.onEvent(PlayState.EVENT_KILL, {killed: creature, bullet: bullet});
 			}
 			creature.killCreature();
-			creature.velocity.x += bullet.velocity.x * 0.5;
-			creature.velocity.y += bullet.velocity.y * 0.5;
+			// Original used 1.0, scaled down to compensate for higher bullet speed
+			creature.velocity.x += bullet.velocity.x * 0.1;
+			creature.velocity.y += bullet.velocity.y * 0.1;
 		} else {
-			creature.velocity.x += bullet.velocity.x * 0.25;
-			creature.velocity.y += bullet.velocity.y * 0.25;
+			// Original used 0.5
+			creature.velocity.x += bullet.velocity.x * 0.05;
+			creature.velocity.y += bullet.velocity.y * 0.05;
 		}
 		bullet.hurtBullet(1);
 	}

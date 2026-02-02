@@ -10,7 +10,8 @@ import flixel.util.FlxColor;
 class Bullet extends FlxSprite {
 	public static inline var COLOR:FlxColor = 0xffffff00;
 	public static inline var ELASTICITY:Float = 0.4;
-	public static inline var SPEED:Float = 400; // Increased for HaxeFlixel's pixel/second velocity
+	// Original was 25, tuned to 400 (16x) for equivalent feel in HaxeFlixel
+	public static inline var SPEED:Float = 400;
 	public static inline var SIZE:Int = 6;
 
 	public var bounces:Int = 0;
@@ -25,7 +26,7 @@ class Bullet extends FlxSprite {
 	public function new(lightsLayer:LightsLayer) {
 		super(0, 0);
 		makeGraphic(SIZE, SIZE, COLOR);
-		acceleration.y = 8; // Slight gravity
+		acceleration.y = 100; // Original 0.5, tuned for arc feel
 		kill();
 
 		_explosion = new BulletExplosion();
