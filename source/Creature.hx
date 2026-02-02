@@ -13,7 +13,7 @@ import openfl.geom.Matrix;
 import openfl.geom.Rectangle;
 
 class Creature extends FlxSprite {
-	public static var BASE_DOWN_SPEED:Float = 20;
+	public static var BASE_DOWN_SPEED:Float = 5;
 
 	private static inline var SCALE:Int = 4;
 	private static inline var STATE_SPAWNING:Int = 0;
@@ -176,10 +176,10 @@ class Creature extends FlxSprite {
 		}
 		loadGraphic(_pixelsAlive, false, 0, 0, true); // unique=true to prevent caching issues
 		alpha = 1.0;
-		acceleration.y = 80;
+		acceleration.y = 120;
 		chain = null;
 		dying = false;
-		maxVelocity.y = 5;
+		maxVelocity.y = 8;
 		velocity.x = Math.random() * 60 - 30;
 		_attacking = null;
 		_attackTime = 0;
@@ -209,9 +209,10 @@ class Creature extends FlxSprite {
 		} else if (_state == STATE_WANDERING) {
 			maxVelocity.y = _downSpeed;
 		} else if (_state == STATE_ATTACKING) {
-			// HaxeFlixel: maxVelocity=0 means "no clamping", so we must zero velocity/acceleration
-			velocity.y = 0;
+			// HaxeFlixel: maxVelocity=0 means "no clamping", so use drag to slow down naturally
 			acceleration.y = 0;
+			drag.y = 200; // Gradual slowdown
+			if (Math.abs(velocity.y) < 1) velocity.y = 0;
 		}
 
 		super.update(elapsed);
@@ -224,7 +225,7 @@ class Creature extends FlxSprite {
 				case STATE_DESCENDING:
 					if (y > 460) {
 						_state = STATE_ATTACKING;
-						velocity.y = 0;
+						// Don't zero velocity - let drag slow it down naturally
 					}
 				case STATE_ATTACKING:
 					var playState = Std.downcast(FlxG.state, PlayState);
@@ -233,6 +234,8 @@ class Creature extends FlxSprite {
 						_attacking = null;
 						_attackTime = 0;
 						_nextAttackTime = 0;
+						acceleration.y = 80; // Restore gravity for wandering
+						drag.y = 0; // Remove drag
 					} else {
 						y = y + Math.sin(currentTime - _spawnTime) * 0.1;
 						if (_attacking != null) {

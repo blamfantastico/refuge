@@ -5,14 +5,16 @@ import flixel.group.FlxGroup;
 import openfl.geom.Rectangle;
 
 class CreaturesLayer extends FlxGroup {
-	private static var SPAWN_AREA:Rectangle = new Rectangle(6 * 32, -9 * 32, 3 * 32, 9 * 32);
+	// Walls are at x=0-192 and x=288-480. Creatures are 20px wide.
+	// Spawn area: x=200-280 gives 8px padding from walls on each side.
+	private static var SPAWN_AREA:Rectangle = new Rectangle(200, -9 * 32, 80, 9 * 32);
 	private static var SPAWN_TIMERS:Array<{score:Int, interval:Float, baseDownSpeed:Float}> = [
-		{score: 50000, interval: 0.5, baseDownSpeed: 35},
-		{score: 30000, interval: 0.6, baseDownSpeed: 30},
-		{score: 20000, interval: 0.7, baseDownSpeed: 25},
-		{score: 10000, interval: 0.8, baseDownSpeed: 20},
-		{score: 5000, interval: 0.9, baseDownSpeed: 20},
-		{score: 0, interval: 1.0, baseDownSpeed: 20}
+		{score: 50000, interval: 0.5, baseDownSpeed: 52},
+		{score: 30000, interval: 0.6, baseDownSpeed: 45},
+		{score: 20000, interval: 0.7, baseDownSpeed: 38},
+		{score: 10000, interval: 0.8, baseDownSpeed: 30},
+		{score: 5000, interval: 0.9, baseDownSpeed: 30},
+		{score: 0, interval: 1.0, baseDownSpeed: 30}
 	];
 
 	public var creatures:FlxTypedGroup<Creature>;

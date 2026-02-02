@@ -104,7 +104,7 @@ class UILayer extends FlxGroup {
 		super.update(elapsed);
 		_scoreText.text = "Score: " + PlayState.score;
 
-		// Update debug creature count
+		// Update debug info
 		var playState = Std.downcast(FlxG.state, PlayState);
 		if (playState != null && playState.creaturesLayer != null) {
 			var count = 0;
@@ -112,7 +112,7 @@ class UILayer extends FlxGroup {
 				if (c != null && c.exists && c.alive)
 					count++;
 			}
-			_debugText.text = "Creatures: " + count;
+			_debugText.text = "FPS:" + FlxG.drawFramerate + " C:" + count;
 		}
 	}
 }

@@ -14,8 +14,8 @@ class BlocksLayer extends FlxGroup {
 
 		// boundaries
 		addBlocks([
-			[0, -320, 192, 352], // roof
-			[288, -320, 192, 352],
+			[0, -640, 192, 672], // roof - extended higher for off-screen collision
+			[288, -640, 192, 672],
 			[0, 32, 128, 32], // more roof blocks
 			[352, 32, 128, 32],
 			[0, 64, 96, 32],

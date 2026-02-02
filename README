@@ -11,3 +11,27 @@ NOTE:
 To build this code, you will have to copy Config.as.template to Config.as and add
 your own Mochi game ID and leaderboard ID. If you don't want to do that, you can
 just comment out the imports and references to com.noonat.Mochi.
+
+## HaxeFlixel Port
+
+A HaxeFlixel port targeting HTML5 is available on the `haxeflixel-port` branch.
+
+### Physics Adjustments
+
+HaxeFlixel uses a different physics integration method (half-step/semi-implicit Euler)
+compared to the original Flixel (simple Euler). To compensate for this difference,
+creature speed values have been adjusted:
+
+| Value | Original | HaxeFlixel Port |
+|-------|----------|-----------------|
+| `BASE_DOWN_SPEED` | 20 | 5 (-75%) |
+| `acceleration.y` | 80 | 120 (+50%) |
+| `maxVelocity.y` initial | 5 | 8 (+60%) |
+| `velocity.x` range | ±30 | ±30 (unchanged) |
+| `baseDownSpeed` timers | 20-35 | 30-52 (+50%) |
+
+### Building the HaxeFlixel Port
+
+```bash
+haxelib run lime build html5
+```

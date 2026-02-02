@@ -33,6 +33,9 @@ class PlayState extends FlxState {
 	override public function create():Void {
 		super.create();
 
+		// Expand world bounds to include spawn area above screen
+		FlxG.worldBounds.set(-100, -700, 700, 1400);
+
 		// Reset score when starting new game
 		PlayState.score = 0;
 
@@ -53,10 +56,10 @@ class PlayState extends FlxState {
 		player.y = 495;
 		playerLayer.add(player);
 
-		add(creaturesLayer);
 		add(playerLayer);
 		add(buildingsLayer);
 		add(blocksLayer);
+		add(creaturesLayer); // Temporarily on top for debugging
 		add(uiLayer);
 		add(lightsLayer.lightSprite);
 
