@@ -57,6 +57,7 @@ class MenuState extends FlxState {
 		// Title
 		var titleText = new FlxText(0, 64, FlxG.width, "REFUGE");
 		titleText.setFormat(null, 96, FlxColor.BLACK, CENTER);
+		titleText.scrollFactor.set(1, 1); // Scroll with camera during transition
 		add(titleText);
 
 		// Start button
@@ -81,6 +82,7 @@ class MenuState extends FlxState {
 			startButton.label.color = 0x15190f;
 		};
 		startButton.alpha = 0.0;
+		startButton.scrollFactor.set(1, 1); // Scroll with camera during transition
 		add(startButton);
 
 		FlxTween.tween(startButton, {alpha: 1}, 0.2, {startDelay: 1.0, ease: FlxEase.linear});

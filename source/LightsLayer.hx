@@ -63,9 +63,9 @@ class LightsLayer extends FlxGroup {
 		_gradient.graphics.endFill();
 
 		// Create a sprite to display the lighting
+		// scrollFactor defaults to (1,1) so it scrolls with the intro transition
 		lightSprite = new FlxSprite(0, 0);
 		lightSprite.makeGraphic(FlxG.width, FlxG.height, 0xff000000);
-		lightSprite.scrollFactor.set(0, 0);
 	}
 
 	override public function draw():Void {
