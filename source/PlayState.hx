@@ -6,6 +6,7 @@ import flixel.FlxState;
 import flixel.group.FlxGroup;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
 import flixel.util.FlxDirectionFlags;
 
 class PlayState extends FlxState {
@@ -32,6 +33,9 @@ class PlayState extends FlxState {
 
 	override public function create():Void {
 		super.create();
+
+		// Set background color
+		FlxG.cameras.bgColor = 0xff111111;
 
 		// Expand world bounds to include spawn area above screen
 		FlxG.worldBounds.set(-100, -700, 700, 1400);
@@ -61,7 +65,7 @@ class PlayState extends FlxState {
 		add(buildingsLayer);
 		add(blocksLayer);
 		add(uiLayer);
-		add(lightsLayer.lightSprite);
+		add(lightsLayer);
 
 		// Add a black block above to hide creatures spawning
 		add(new Block(0, -1280, 480, 1280, 0xff000000));

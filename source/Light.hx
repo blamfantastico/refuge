@@ -27,8 +27,10 @@ class Light extends FlxBasic {
 		if (_colorTransform == null) {
 			_colorTransform = new ColorTransform();
 			_defaultShape = new Shape();
+			// Use larger base circle (radius 64) to avoid HTML5 canvas scaling issues
+			// Black removes blue channel = creates transparency in final overlay
 			_defaultShape.graphics.beginFill(0x000000, 1.0);
-			_defaultShape.graphics.drawCircle(0, 0, 1);
+			_defaultShape.graphics.drawCircle(0, 0, 64);
 			_defaultShape.graphics.endFill();
 		}
 
@@ -40,9 +42,12 @@ class Light extends FlxBasic {
 		this.xy(x, y);
 	}
 
+	private static inline var BASE_RADIUS:Float = 64;
+
 	public function renderInto(alphaPixels:BitmapData, matrix:Matrix):Void {
+		var adjustedScale = _scale / BASE_RADIUS;
 		_matrix.identity();
-		_matrix.scale(_scale, _scale);
+		_matrix.scale(adjustedScale, adjustedScale);
 		_matrix.rotate(_radians);
 		_matrix.translate(lightX, lightY);
 		if (matrix != null)
