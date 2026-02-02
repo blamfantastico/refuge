@@ -188,7 +188,8 @@ class Player extends FlxSprite {
 			_lights[i].xy(x + width / 2 + _aimX * s, y + _aimY * s);
 		}
 
-		// Move the muzzle to match the angle
+		// Rotate player and muzzle to match aim angle
+		angle = _playerAngle;
 		_muzzle.angle = _playerAngle;
 		_muzzle.x = (x + (width * 0.5)) - (_muzzle.width * 0.5);
 		_muzzle.y = (y + (height * 0.5)) - (_muzzle.height * 0.5);

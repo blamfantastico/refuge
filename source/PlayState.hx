@@ -56,10 +56,10 @@ class PlayState extends FlxState {
 		player.y = 495;
 		playerLayer.add(player);
 
+		add(creaturesLayer);
 		add(playerLayer);
 		add(buildingsLayer);
 		add(blocksLayer);
-		add(creaturesLayer); // Temporarily on top for debugging
 		add(uiLayer);
 		add(lightsLayer.lightSprite);
 
