@@ -8,6 +8,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+import lime.system.Clipboard;
 import openfl.display.GradientType;
 import openfl.display.Shape;
 import openfl.geom.Matrix;
@@ -17,7 +18,7 @@ class UILayer extends FlxGroup {
 	private var _gameOverLight:Light;
 	private var _gameOverText:FlxText;
 	private var _scoreText:FlxText;
-	private var _submitScoreButton:FlxButton;
+	private var _copyScoreButton:FlxButton;
 	private var _tryAgainButton:FlxButton;
 	private var _debugText:FlxText;
 
@@ -60,14 +61,44 @@ class UILayer extends FlxGroup {
 
 		yPos += 96;
 
-		// Try again button (removed Mochi leaderboard, using local restart)
+		// Copy score button
+		_copyScoreButton = new FlxButton(Std.int(FlxG.width / 2 - 72), yPos, "Copy Score", function() {
+			Clipboard.text = "Refuge Score: " + PlayState.score;
+		});
+		_copyScoreButton.makeGraphic(144, 28, 0x99000000);
+		_copyScoreButton.label.setFormat(null, 16, FlxColor.WHITE, CENTER);
+		_copyScoreButton.label.offset.y = -3;
+		_copyScoreButton.alpha = 0.0;
+		_copyScoreButton.visible = false;
+		_copyScoreButton.onOver.callback = function() {
+			_copyScoreButton.makeGraphic(144, 28, 0x99ffffff);
+			_copyScoreButton.label.setFormat(null, 16, FlxColor.BLACK, CENTER);
+		};
+		_copyScoreButton.onOut.callback = function() {
+			_copyScoreButton.makeGraphic(144, 28, 0x99000000);
+			_copyScoreButton.label.setFormat(null, 16, FlxColor.WHITE, CENTER);
+		};
+		add(_copyScoreButton);
+
+		yPos += 40;
+
+		// Try again button
 		_tryAgainButton = new FlxButton(Std.int(FlxG.width / 2 - 72), yPos, "Try Again", function() {
 			FlxG.resetState();
 		});
 		_tryAgainButton.makeGraphic(144, 28, 0x99000000);
 		_tryAgainButton.label.setFormat(null, 16, FlxColor.WHITE, CENTER);
+		_tryAgainButton.label.offset.y = -3;
 		_tryAgainButton.alpha = 0.0;
 		_tryAgainButton.visible = false;
+		_tryAgainButton.onOver.callback = function() {
+			_tryAgainButton.makeGraphic(144, 28, 0x99ffffff);
+			_tryAgainButton.label.setFormat(null, 16, FlxColor.BLACK, CENTER);
+		};
+		_tryAgainButton.onOut.callback = function() {
+			_tryAgainButton.makeGraphic(144, 28, 0x99000000);
+			_tryAgainButton.label.setFormat(null, 16, FlxColor.WHITE, CENTER);
+		};
 		add(_tryAgainButton);
 
 		// Score text at bottom
@@ -92,7 +123,9 @@ class UILayer extends FlxGroup {
 		FlxTween.tween(_gameOverText, {alpha: 1}, 5.0, {
 			ease: FlxEase.linear,
 			onComplete: function(_) {
+				_copyScoreButton.visible = true;
 				_tryAgainButton.visible = true;
+				FlxTween.tween(_copyScoreButton, {alpha: 1.0}, 2.0, {ease: FlxEase.linear});
 				FlxTween.tween(_tryAgainButton, {alpha: 1.0}, 2.0, {ease: FlxEase.linear});
 			}
 		});

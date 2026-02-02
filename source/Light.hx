@@ -45,7 +45,8 @@ class Light extends FlxBasic {
 	private static inline var BASE_RADIUS:Float = 64;
 
 	public function renderInto(alphaPixels:BitmapData, matrix:Matrix):Void {
-		var adjustedScale = _scale / BASE_RADIUS;
+		// Only adjust scale for default shape (which has radius 64 instead of 1)
+		var adjustedScale = (shape == _defaultShape) ? _scale / BASE_RADIUS : _scale;
 		_matrix.identity();
 		_matrix.scale(adjustedScale, adjustedScale);
 		_matrix.rotate(_radians);
