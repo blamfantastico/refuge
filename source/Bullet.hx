@@ -75,9 +75,13 @@ class Bullet extends FlxSprite {
 		killBullet();
 		velocity.x = 0;
 		velocity.y = 0;
-		_explosion.x = x + width / 2;
-		_explosion.y = y + height / 2;
-		_explosion.start(true, 0.5, 6);
+		// Only start explosion if previous particles have finished
+		// (matches original behavior which waits for first particle to die)
+		if (!_explosion.members[0].exists) {
+			_explosion.x = x + width / 2;
+			_explosion.y = y + height / 2;
+			_explosion.start(true, 1.5, 6);
+		}
 	}
 
 	public function killBullet():Void {
