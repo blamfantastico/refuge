@@ -95,6 +95,11 @@ class MenuState extends FlxState {
 	}
 
 	override public function update(elapsed:Float):Void {
+		// Toggle mute with M key
+		if (FlxG.keys.justPressed.M) {
+			FlxG.sound.muted = !FlxG.sound.muted;
+		}
+
 		super.update(elapsed);
 		FlxG.camera.scroll.y = _scrollY;
 	}

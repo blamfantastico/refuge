@@ -137,6 +137,11 @@ class PlayState extends FlxState {
 		// Apply scroll
 		FlxG.camera.scroll.y = _scrollY;
 
+		// Toggle mute with M key
+		if (FlxG.keys.justPressed.M) {
+			FlxG.sound.muted = !FlxG.sound.muted;
+		}
+
 		super.update(elapsed);
 
 		// Update bullet collisions
