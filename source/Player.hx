@@ -44,7 +44,9 @@ class Player extends FlxSprite {
 			var bullet = new Bullet(lightsLayer);
 			_bullets.add(bullet);
 			layer.add(bullet);
-			layer.add(bullet.getExplosion());
+			for (explosion in bullet.getExplosions()) {
+				layer.add(explosion);
+			}
 		}
 
 		// Give him some lights
@@ -68,6 +70,8 @@ class Player extends FlxSprite {
 	}
 
 	public function onBulletHitCreature(bullet:Bullet, creature:Creature):Void {
+		// Call hurtBullet before killCreature so particle count check sees correct dying state
+		bullet.hurtBullet(1, creature);
 		if (!creature.dying) {
 			var playState = Std.downcast(FlxG.state, PlayState);
 			if (playState != null) {
@@ -82,7 +86,6 @@ class Player extends FlxSprite {
 			creature.velocity.x += bullet.velocity.x * 0.05;
 			creature.velocity.y += bullet.velocity.y * 0.05;
 		}
-		bullet.hurtBullet(1);
 	}
 
 	private function shootBullet():Bullet {
