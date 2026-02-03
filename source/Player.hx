@@ -174,7 +174,7 @@ class Player extends FlxSprite {
 		_aimX = Math.cos(_playerAngle * (Math.PI / 180));
 		_aimY = Math.sin(_playerAngle * (Math.PI / 180));
 
-		if (!isGameOver && (FlxG.keys.justPressed.X || FlxG.keys.justPressed.C)) {
+		if (!isGameOver && (FlxG.keys.justPressed.X || FlxG.keys.justPressed.C || FlxG.keys.justPressed.SPACE)) {
 			shootBullet();
 		}
 
