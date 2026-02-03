@@ -302,11 +302,12 @@ class Creature extends FlxSprite {
 		_explosion.y = y + height / 2;
 		if (delay < 0) {
 			// Negative delay = explosion mode (all particles at once, live for abs(delay) seconds)
-			_explosion.start(true, -delay, 8);
+			_explosion.lifespan.set(-delay);
+			_explosion.start(true, 0, 8);
 		} else {
 			// Positive delay = interval mode (emit one particle every delay seconds)
-			_explosion.frequency = delay;
-			_explosion.start(false, 0, 0); // 0 lifespan = use emitter's configured lifespan range
+			_explosion.lifespan.set(1.5);
+			_explosion.start(false, delay, 0);
 		}
 	}
 

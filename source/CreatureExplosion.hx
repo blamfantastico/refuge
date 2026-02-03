@@ -10,8 +10,12 @@ class CreatureExplosion extends FlxEmitter {
 	public function new(brightness:Float) {
 		super(0, 0, 8);
 
+		// Emission area (original uses width/2, height/2 of creature which is 20x20)
+		width = 10;
+		height = 10;
+
 		// Use interval emission mode (emit one particle every 0.2s) like original
-		frequency = 0.2;
+		frequency = 0.05;
 
 		var b:Int = Std.int(255 * brightness);
 		var argb:FlxColor = FlxColor.fromRGB(b, b, b);
@@ -37,7 +41,7 @@ class CreatureExplosion extends FlxEmitter {
 		velocity.set(-10, 0, 10, 50);
 		angularVelocity.set(-720, 720);
 		acceleration.set(0, 20);
-		lifespan.set(0.5, 1.0);
+		// lifespan not set here - controlled by delay param in explode()
 		alpha.set(1.0, 1.0); // No fade - original doesn't fade particles
 	}
 }
