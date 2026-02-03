@@ -20,6 +20,7 @@ class BulletExplosion extends FlxEmitter {
 		velocity.set(-20, -100, 20, 0);
 		angularVelocity.set(-720, 720);
 		acceleration.set(0, 400);
-		lifespan.set(0.5, 1.0);
+		lifespan.set(1.5, 1.5); // Original delay=-1.5 means particles live 1.5s
+		alpha.set(1.0, 1.0); // No fade - original doesn't fade particles
 	}
 }

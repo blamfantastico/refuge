@@ -298,10 +298,16 @@ class Creature extends FlxSprite {
 	}
 
 	private function explode(delay:Float = 0.2):Void {
-		_explosion.explosionDelay = delay;
 		_explosion.x = x + width / 2;
 		_explosion.y = y + height / 2;
-		_explosion.start(true, 0.5, 8);
+		if (delay < 0) {
+			// Negative delay = explosion mode (all particles at once, live for abs(delay) seconds)
+			_explosion.start(true, -delay, 8);
+		} else {
+			// Positive delay = interval mode (emit one particle every delay seconds)
+			_explosion.frequency = delay;
+			_explosion.start(false, 0, 0); // 0 lifespan = use emitter's configured lifespan range
+		}
 	}
 
 	private function flash(radius:Float, X:Float = 0, Y:Float = 0, ?light:Light):Void {
