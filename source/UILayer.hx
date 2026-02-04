@@ -18,8 +18,9 @@ class UILayer extends FlxGroup {
 	private var _gameOverLight:Light;
 	private var _gameOverText:FlxText;
 	private var _scoreText:FlxText;
-	private var _copyScoreButton:FlxButton;
+	private var _shareButton:FlxButton;
 	private var _tryAgainButton:FlxButton;
+	public var toastText:FlxText;
 
 	public function new(lightsLayer:LightsLayer) {
 		super();
@@ -60,24 +61,36 @@ class UILayer extends FlxGroup {
 
 		yPos += 96;
 
-		// Copy score button
-		_copyScoreButton = new FlxButton(Std.int(FlxG.width / 2 - 72), yPos, "Copy Score", function() {
-			Clipboard.text = "Refuge Score: " + PlayState.score;
+		// Toast text (shown when score is copied) - added to PlayState above lights layer
+		toastText = new FlxText(0, 40, FlxG.width, "Score copied to clipboard");
+		toastText.setFormat(null, 16, FlxColor.WHITE, CENTER);
+		toastText.alpha = 0.0;
+
+		// Share button
+		_shareButton = new FlxButton(Std.int(FlxG.width / 2 - 72), yPos, "Share", function() {
+			Clipboard.text = "Refuge Score: " + PlayState.score + " 👾";
+			// Fade in toast, then fade out after 2 seconds
+			toastText.alpha = 0.0;
+			FlxTween.tween(toastText, {alpha: 0.75}, 0.5, {
+				ease: FlxEase.linear,
+				onComplete: function(_) {
+					FlxTween.tween(toastText, {alpha: 0.0}, 3.0, {startDelay: 1.5, ease: FlxEase.linear});
+				}
+			});
 		});
-		_copyScoreButton.makeGraphic(144, 28, 0x99000000);
-		_copyScoreButton.label.setFormat(null, 16, FlxColor.WHITE, CENTER);
-		_copyScoreButton.label.offset.y = -3;
-		_copyScoreButton.alpha = 0.0;
-		_copyScoreButton.visible = false;
-		_copyScoreButton.onOver.callback = function() {
-			_copyScoreButton.makeGraphic(144, 28, 0x99ffffff);
-			_copyScoreButton.label.setFormat(null, 16, FlxColor.BLACK, CENTER);
+		_shareButton.makeGraphic(144, 28, 0x99000000);
+		_shareButton.label.setFormat(null, 16, FlxColor.WHITE, CENTER);
+		_shareButton.alpha = 0.0;
+		_shareButton.visible = false;
+		_shareButton.onOver.callback = function() {
+			_shareButton.makeGraphic(144, 28, 0x99ffffff);
+			_shareButton.label.setFormat(null, 16, FlxColor.BLACK, CENTER);
 		};
-		_copyScoreButton.onOut.callback = function() {
-			_copyScoreButton.makeGraphic(144, 28, 0x99000000);
-			_copyScoreButton.label.setFormat(null, 16, FlxColor.WHITE, CENTER);
+		_shareButton.onOut.callback = function() {
+			_shareButton.makeGraphic(144, 28, 0x99000000);
+			_shareButton.label.setFormat(null, 16, FlxColor.WHITE, CENTER);
 		};
-		add(_copyScoreButton);
+		add(_shareButton);
 
 		yPos += 40;
 
@@ -87,7 +100,6 @@ class UILayer extends FlxGroup {
 		});
 		_tryAgainButton.makeGraphic(144, 28, 0x99000000);
 		_tryAgainButton.label.setFormat(null, 16, FlxColor.WHITE, CENTER);
-		_tryAgainButton.label.offset.y = -3;
 		_tryAgainButton.alpha = 0.0;
 		_tryAgainButton.visible = false;
 		_tryAgainButton.onOver.callback = function() {
@@ -116,9 +128,9 @@ class UILayer extends FlxGroup {
 		FlxTween.tween(_gameOverText, {alpha: 1}, 5.0, {
 			ease: FlxEase.linear,
 			onComplete: function(_) {
-				_copyScoreButton.visible = true;
+				_shareButton.visible = true;
 				_tryAgainButton.visible = true;
-				FlxTween.tween(_copyScoreButton, {alpha: 1.0}, 2.0, {ease: FlxEase.linear});
+				FlxTween.tween(_shareButton, {alpha: 1.0}, 2.0, {ease: FlxEase.linear});
 				FlxTween.tween(_tryAgainButton, {alpha: 1.0}, 2.0, {ease: FlxEase.linear});
 			}
 		});

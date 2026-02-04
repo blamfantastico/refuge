@@ -67,6 +67,9 @@ class PlayState extends FlxState {
 		add(uiLayer);
 		add(lightsLayer);
 
+		// Add toast above lights layer
+		add(uiLayer.toastText);
+
 		// Add a black block above to hide creatures spawning
 		add(new Block(0, -1280, 480, 1280, 0xff000000));
 	}
